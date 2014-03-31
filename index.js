@@ -1,5 +1,6 @@
 'use strict';
 
-module.exports = function () {
-    return undefined;
+module.exports = function (app) {
+    return function () {
+    };
 };

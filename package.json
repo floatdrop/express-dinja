@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/floatdrop/express-dinja",
   "devDependencies": {
-    "coveralls": "^2.10.0",
-    "express": "^3.5.1",
-    "istanbul": "^0.2.7",
-    "jshint": "^2.4.4",
-    "mocha": "^1.18.2",
-    "mocha-lcov-reporter": "0.0.1",
-    "should": "^3.2.0",
-    "supertest": "^0.10.0"
+    "coveralls": "~2.10.0",
+    "express": "~3.5.1",
+    "istanbul": "~0.2.7",
+    "jshint": "~2.4.4",
+    "mocha": "~1.18.2",
+    "mocha-lcov-reporter": "~0.0.1",
+    "should": "~3.2.0",
+    "supertest": "~0.10.0"
   }
 }
