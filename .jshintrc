@@ -28,5 +28,5 @@
     "maxerr": 5,
     "maxdepth": 2,
     "maxstatements": 12,
-    "maxcomplexity": 5
+    "maxcomplexity": 8
 }

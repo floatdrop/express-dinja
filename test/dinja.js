@@ -104,4 +104,33 @@ describe('inject', function () {
             .get('/')
             .expect(200, done);
     });
+
+    it('should throw on circular dependencies', function (done) {
+        var express = require('express');
+        var app = express();
+        var inject = require('../index.js')(app);
+
+        inject('injected', function (dependency, req, res, next) {
+            next(null, 'injected');
+        });
+
+        inject('dependency', function (injected, req, res, next) {
+            next(null, 'dependency ' + injected);
+        });
+
+        app.get('/', function (dependency, req, res, next) {
+            next();
+        });
+
+        app.use(function (err, req, res, next) {
+            res.send(err.toString());
+
+            should.exist(next);
+            next.should.be.type('function');
+        });
+
+        request(app)
+            .get('/')
+            .expect(/Circular dependencies: dependency -> injected -> dependency/, done);
+    });
 });

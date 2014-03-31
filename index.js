@@ -8,6 +8,8 @@ module.exports = function (app) {
     var dependencies = {};
     var route = app._router.route;
 
+    var resolvePath;
+
     function resolveInjections(params, req, res, next, done) {
         /*jshint validthis:true */
         var self = this;
@@ -17,6 +19,11 @@ module.exports = function (app) {
             if (dependency === 'res') { return callback(null, res); }
             if (dependency === 'next') { return callback(null, next); }
 
+            if (resolvePath.indexOf(dependency) !== -1) {
+                throw new Error('Circular dependencies: ' + resolvePath.join(' -> ') + ' -> ' + dependency);
+            }
+
+            resolvePath.push(dependency);
             var constructor = dependencies[dependency];
 
             if (!constructor) {
@@ -40,6 +47,7 @@ module.exports = function (app) {
 
             return function (req, res, next) {
                 var self = this;
+                resolvePath = [];
                 resolveInjections.bind(self)(params, req, res, next, function (err, results) {
                     if (err) {
                         return next(err);
