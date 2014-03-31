@@ -25,7 +25,6 @@ app.get('/', function (dependency, req, res, next) {
     });
 });
 
-
 require('http').createServer(app).listen(8080);
 ```
 
