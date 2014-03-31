@@ -4,7 +4,7 @@
   "description": "Dependency injection for Express applications",
   "main": "index.js",
   "scripts": {
-    "test": "jshint . && mocha -R spec",
+    "test": "mocha -R spec",
     "coverage": "istanbul cover node_modules/.bin/_mocha --report html -- -R spec",
     "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls"
   },
@@ -33,5 +33,9 @@
     "mocha-lcov-reporter": "~0.0.1",
     "should": "~3.2.0",
     "supertest": "~0.10.0"
+  },
+  "dependencies": {
+    "async": "~0.6.2",
+    "get-parameter-names": "~0.2.0"
   }
 }
