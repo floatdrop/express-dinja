@@ -1,4 +1,6 @@
-# express-dinja [![NPM Version](https://badge.fury.io/js/express-dinja.png)](https://npmjs.org/package/express-dinja) [![Build Status](https://travis-ci.org/floatdrop/express-dinja.png?branch=master)](https://travis-ci.org/floatdrop/express-dinja) [![Coverage Status](https://coveralls.io/repos/floatdrop/express-dinja/badge.png?branch=master)](https://coveralls.io/r/floatdrop/express-dinja) [![Dependency Status](https://gemnasium.com/floatdrop/express-dinja.png)](https://gemnasium.com/floatdrop/express-dinja)
+# express-dinja
+
+[![NPM Version](https://badge.fury.io/js/express-dinja.png)](https://npmjs.org/package/express-dinja) [![Build Status](https://travis-ci.org/floatdrop/express-dinja.png?branch=master)](https://travis-ci.org/floatdrop/express-dinja) [![Coverage Status](https://coveralls.io/repos/floatdrop/express-dinja/badge.png?branch=master)](https://coveralls.io/r/floatdrop/express-dinja) [![Dependency Status](https://gemnasium.com/floatdrop/express-dinja.png)](https://gemnasium.com/floatdrop/express-dinja) [![Code Climate](https://codeclimate.com/github/floatdrop/express-dinja.png)](https://codeclimate.com/github/floatdrop/express-dinja)
 
 Use dependency injection pattern for Express applications.
 
