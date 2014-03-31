@@ -2,7 +2,7 @@
     "es5": false,
     "curly": true,
     "eqeqeq": true,
-    "immed": true,
+    "immed": false,
     "latedef": true,
     "newcap": true,
     "noarg": true,
