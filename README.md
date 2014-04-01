@@ -36,6 +36,10 @@ On [localhost:8080](http://localhost:8080) you should see:
 }
 ```
 
+## Difference from express-di
+
+This module is heavily based on code from `express-di`, but has additional features, that I think is necessary for full dependency injection - allowing inject dependencies in other dependencies.
+
 ## License
 
 The MIT License (MIT) © [Vsevolod Strukchinsky](floatdrop@gmail.com)

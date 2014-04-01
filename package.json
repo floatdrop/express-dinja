@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "async": "~0.6.2",
+    "dag": "~0.0.1",
     "get-parameter-names": "~0.2.0"
   }
 }
