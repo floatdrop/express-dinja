@@ -59,6 +59,14 @@ This module is heavily based on code from `express-di`, but has additional featu
  * Dependency resolving in injected dependencies
  * No cache
 
+## Benchmark
+
+I used benchmark from [`express-di`](https://github.com/luin/express-di/tree/master/benchmarks) to compare bare express application performance with patched version. Benchmark takes application with one middleware, that uses dependency injection and after middleware is done - sends 'Hello world' response.
+
+Middleware is faked database connection, which will response in predefined time (horisontal bar) and requests/sec is the vertical bar:
+
+![Performance chart](https://cloud.githubusercontent.com/assets/365089/2589980/b064ad6c-ba54-11e3-871b-6ea8335277a4.png)
+
 ## API
 
 ### expressInject(app)
