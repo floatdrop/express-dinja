@@ -9,7 +9,7 @@ Use dependency injection pattern for Express applications. Inspired by [express-
 ```js
 var express = require('express');
 var app = express();
-var inject = require('../index.js')(app);
+var inject = require('express-dinja')(app);
 
 inject('injected', function (req, res, next) {
     next(null, 'injected');
