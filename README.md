@@ -50,8 +50,7 @@ In express there is no built-in way to start execution of middlewares parallel, 
 To reduce boilerplate code (you can see it in statusTodos function below) dependency injection pattern was added to express route function.
 Here is example how would applications look in plain express middlewares, express with express-dinja and [fist framework](https://github.com/fistlabs/fist):
 
-![express vs express-dinja vs express-fist](https://cloud.githubusercontent.com/assets/365089/2588957/892f28fe-ba44-11e3-85f4-409d5ddc7eaf.png)
-
+![2014-04-02 15-31-55 fist js - usersfloatdropexpress-vs-fist](https://cloud.githubusercontent.com/assets/365089/2589274/b1e02870-ba49-11e3-9a31-4cd839c50c70.png)
 
 ## Difference from express-di
 
