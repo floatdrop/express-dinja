@@ -87,34 +87,6 @@ describe('base functionality', function () {
             .expect(/Unknown dependency: wat/, done);
     });
 
-    it('should pass errors to the next middleware', function (done) {
-        var express = require('express');
-        var app = express();
-        var inject = require('../index.js')(app);
-
-        inject('bad', function (req, res, next) {
-            next('an error');
-        });
-
-        var func1 = function (req, res, bad) {
-            should.not.exist(bad);
-            res.send(200);
-        };
-
-        app.get('/', func1);
-
-        app.use(function (err, req, res, next) {
-            res.send(500, err.toString());
-
-            should.exist(next);
-            next.should.be.type('function');
-        });
-
-        request(app)
-            .get('/')
-            .expect(500, 'an error', done);
-    });
-
     it('should resolve dependencies in dependencies', function (done) {
         var express = require('express');
         var app = express();
