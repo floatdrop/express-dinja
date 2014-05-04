@@ -42,7 +42,7 @@ Suppose you have this middleware dependency tree:
 
 ![middlewares](https://cloud.githubusercontent.com/assets/365089/2589017/c0292b1a-ba45-11e3-9a1b-57e63d5cdcd2.png)
 
-In express there is no built-in way to start execution of middlewares parallel, so you have two choises:
+In express there is no built-in way to start execution of middlewares parallel, so you have two choices:
 
  1. Linearize middlewares tree and launch them one after one &mdash; and drop performance of app
  2. Write meta-middleware, that will launch independent middlewares side-by-side &mdash; and write boilerplate code
