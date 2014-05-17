@@ -4,6 +4,8 @@
 
 Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/floatdrop/express-di).
 
+__For express@3.x only__
+
 ## Example
 
 ```js
