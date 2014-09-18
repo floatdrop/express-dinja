@@ -45,7 +45,7 @@ On [localhost:8080](http://localhost:8080) you should see:
 
 ## Why
 
-Suppose you have this middleware dependency tree:
+Suppose you have this graph of middleware dependencies:
 
 ![middlewares](https://cloud.githubusercontent.com/assets/365089/2589017/c0292b1a-ba45-11e3-9a1b-57e63d5cdcd2.png)
 
