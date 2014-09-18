@@ -74,19 +74,11 @@ Middleware is faked database connection, which will response in predefined time 
 
 ## API
 
-### expressInject(app)
-```js
-var expressInject = require('express-inject');
-```
+### dinja(app)
 
 Returns `Function`, that can inject dependencies into express application `app`. It will patch `route` method to enable injections in route-specific methods like `use`, `get`, `post` and etc.
 
 ### inject(name, fn)
-
-```js
-var app = express();
-var inject = expressInject(app);
-```
 
 Injects dependency with name `name` and dependent express middlewares `fn`.
 
