@@ -37,6 +37,6 @@
     "async": "~0.9",
     "dag": "~0.0.1",
     "flatit": "^1.1.0",
-    "get-parameter-names": "~0.2.0"
+    "fn-args": "^1.0.0"
   }
 }
