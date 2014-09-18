@@ -1,10 +1,12 @@
 # express-dinja
 
-[![NPM Version](https://badge.fury.io/js/express-dinja.png)](https://npmjs.org/package/express-dinja) [![Build Status](https://travis-ci.org/floatdrop/express-dinja.png?branch=master)](https://travis-ci.org/floatdrop/express-dinja) [![Coverage Status](https://coveralls.io/repos/floatdrop/express-dinja/badge.png?branch=master)](https://coveralls.io/r/floatdrop/express-dinja) [![Dependency Status](https://gemnasium.com/floatdrop/express-dinja.png)](https://gemnasium.com/floatdrop/express-dinja) [![Code Climate](https://codeclimate.com/github/floatdrop/express-dinja.png)](https://codeclimate.com/github/floatdrop/express-dinja)
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
 Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/floatdrop/express-di).
 
-__For express@3.x only__
+## Compatibility
+
+ * `3.x` version is for use with `express@3`
 
 ## Example
 
@@ -99,3 +101,15 @@ You can see [example](https://github.com/floatdrop/express-dinja#example) for de
 ## License
 
 The MIT License (MIT) © [Vsevolod Strukchinsky](floatdrop@gmail.com)
+
+[npm-url]: https://npmjs.org/package/express-dinja
+[npm-image]: http://img.shields.io/npm/v/express-dinja.svg?style=flat
+
+[travis-url]: https://travis-ci.org/floatdrop/express-dinja
+[travis-image]: http://img.shields.io/travis/floatdrop/express-dinja.svg?style=flat
+
+[coveralls-url]: https://coveralls.io/r/floatdrop/express-dinja
+[coveralls-image]: http://img.shields.io/coveralls/floatdrop/express-dinja.svg?style=flat
+
+[depstat-url]: https://david-dm.org/floatdrop/express-dinja
+[depstat-image]: http://img.shields.io/david/floatdrop/express-dinja.svg?style=flat
