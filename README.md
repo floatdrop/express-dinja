@@ -26,7 +26,7 @@ inject('dependency', function (injected, req, res, next) {
     next(null, 'dependency ' + injected);
 });
 
-app.get('/', function (dependency, req, res, next) {
+app.get('/', function (dependency, req, res) {
     res.json({
         dinja: dependency
     });
@@ -49,6 +49,7 @@ Suppose you have this middleware dependency tree:
 
 ![middlewares](https://cloud.githubusercontent.com/assets/365089/2589017/c0292b1a-ba45-11e3-9a1b-57e63d5cdcd2.png)
 
+
 In express there is no built-in way to start execution of middlewares parallel, so you have two choices:
 
  1. Linearize middlewares tree and launch them one after one &mdash; and drop performance of app
@@ -57,7 +58,7 @@ In express there is no built-in way to start execution of middlewares parallel, 
 To reduce boilerplate code (you can see it in statusTodos function below) dependency injection pattern was added to express route function.
 Here is example how would applications look in plain express middlewares, express with express-dinja and [fist framework](https://github.com/fistlabs/fist):
 
-![2014-04-02 15-31-55 fist js - usersfloatdropexpress-vs-fist](https://cloud.githubusercontent.com/assets/365089/2589274/b1e02870-ba49-11e3-9a31-4cd839c50c70.png)
+![express-vs-fist](https://cloud.githubusercontent.com/assets/365089/4318952/5fae9774-3f25-11e4-940a-b4d557750a1d.png)
 
 ## Difference from express-di
 
