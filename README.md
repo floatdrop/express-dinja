@@ -9,7 +9,7 @@ Use dependency injection pattern for Express applications. Inspired by [express-
  * `3.x` version is for use with `express@3`
  * `4.x` version is for use with `express@4`
 
-## Example
+## Usage
 
 ```js
 var express = require('express');
@@ -88,8 +88,6 @@ Injects dependency with name `name` and dependent express middlewares `fn`.
  2. `next(err, value)` function accepts two arguments: `err` and `value` of dependency.
 
 `req`, `res` and `next` names are pre-defined to corresponding arguments of express middleware.
-
-You can see [example](https://github.com/floatdrop/express-dinja#example) for details.
 
 ## License
 
