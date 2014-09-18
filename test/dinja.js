@@ -41,7 +41,7 @@ describe('base functionality', function () {
             .expect(200, done);
     });
 
-    it('should inject dependency', function (done) {
+    it('should inject one dependency', function (done) {
         var app = express();
         var inject = dinja(app);
 
@@ -52,6 +52,36 @@ describe('base functionality', function () {
         app.get('/', function (dependency, req, res, next) {
             should.exist(dependency);
             dependency.should.eql('injected');
+
+            should.exist(next);
+            next.should.be.type('function');
+
+            res.status(200).end();
+        });
+
+        request(app)
+            .get('/')
+            .expect(200, done);
+    });
+
+    it('should inject multiple dependencies', function (done) {
+        var app = express();
+        var inject = dinja(app);
+
+        inject('dependency1', function (req, res, next) {
+            setTimeout(next, 10, null, 'injected1');
+        });
+
+        inject('dependency2', function (req, res, next) {
+            setTimeout(next, 10, null, 'injected2');
+        });
+
+        app.get('/', function (dependency1, dependency2, req, res, next) {
+            should.exist(dependency1);
+            dependency1.should.eql('injected1');
+
+            should.exist(dependency2);
+            dependency2.should.eql('injected2');
 
             should.exist(next);
             next.should.be.type('function');

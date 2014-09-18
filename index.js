@@ -15,7 +15,7 @@ module.exports = function (app) {
         /*jshint validthis:true */
         var self = this;
 
-        async.mapSeries(params, function (dependency, callback) {
+        async.map(params, function (dependency, callback) {
             if (dependency === 'req') { return callback(null, req); }
             if (dependency === 'res') { return callback(null, res); }
             if (dependency === 'next') { return callback(null, next); }
