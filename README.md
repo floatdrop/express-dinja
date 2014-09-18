@@ -92,17 +92,15 @@ Injects dependency with name `name` and dependent express middlewares `fn`.
 
 `req`, `res` and `next` names are pre-defined to corresponding arguments of express middleware.
 
-## Exposed properties
-
-### inject.resolve(dependency, callback)
+### inject.resolve(name, callback)
 
 Resolves dependency and calls callback:
 
 ```js
-function resolve(dependency, cb) {
-    var resolved = this.dependencies[dependency];
+function resolve(name, cb) {
+    var resolved = this.dependencies[name];
     if (!resolved) {
-        return cb(new Error('Unknown dependency: ' + dependency));
+        return cb(new Error('Unknown dependency: ' + name));
     }
     return cb(null, resolved);
 }
@@ -110,15 +108,17 @@ function resolve(dependency, cb) {
 
 You can override it to add caching.
 
-### inject.declare(dependency, fn)
+### inject.declare(name, fn)
 
 Stores dependency in `inject.dependencies` object:
 
 ```js
-function declare(dependency, fn) {
-    this.dependencies[dependency] = fn;
+function declare(name, fn) {
+    this.dependencies[name] = fn;
 }
 ```
+
+If you want to use shared singleton as storage, you can override this (do not forget to override `inject.resolve` as well).
 
 
 ## License

@@ -25,14 +25,14 @@ module.exports = function (app) {
 
     inject.dependencies = {};
 
-    inject.declare = function declare(dependency, fn) {
-        this.dependencies[dependency] = fn;
+    inject.declare = function declare(name, fn) {
+        this.dependencies[name] = fn;
     };
 
-    inject.resolve = function resolve(dependency, cb) {
-        var resolved = this.dependencies[dependency];
+    inject.resolve = function resolve(name, cb) {
+        var resolved = this.dependencies[name];
         if (!resolved) {
-            return cb(new Error('Unknown dependency: ' + dependency));
+            return cb(new Error('Unknown dependency: ' + name));
         }
         return cb(null, resolved);
     };
