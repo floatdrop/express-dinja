@@ -27,6 +27,6 @@
     "indent": 4,
     "maxerr": 5,
     "maxdepth": 2,
-    "maxstatements": 12,
+    "maxstatements": 25,
     "maxcomplexity": 8
 }

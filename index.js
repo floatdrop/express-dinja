@@ -8,8 +8,34 @@ var Dag = require('dag');
 var needInject = require('./utils.js').needInject;
 
 module.exports = function (app) {
-    var dependencies = {};
     var dag = new Dag();
+    var inject;
+
+    inject = function (dependency, fn) {
+        if (typeof fn !== 'function') {
+            throw new Error('inject() requires a function, but got a ' + typeof fn);
+        }
+
+        argnames(fn).forEach(function (param) {
+            dag.addEdge(dependency, param);
+        });
+
+        inject.declare.call(inject, dependency, fn);
+    };
+
+    inject.dependencies = {};
+
+    inject.declare = function declare(dependency, fn) {
+        this.dependencies[dependency] = fn;
+    };
+
+    inject.resolve = function resolve(dependency, cb) {
+        var resolved = this.dependencies[dependency];
+        if (!resolved) {
+            return cb(new Error('Unknown dependency: ' + dependency));
+        }
+        return cb(null, resolved);
+    };
 
     function resolveInjections(params, req, res, next, done) {
         /*jshint validthis:true */
@@ -20,22 +46,20 @@ module.exports = function (app) {
             if (dependency === 'res') { return callback(null, res); }
             if (dependency === 'next') { return callback(null, next); }
 
-            var constructor = dependencies[dependency];
+            inject.resolve.call(inject, dependency, function (err, constructor) {
+                if (err) { throw err; }
 
-            if (!constructor) {
-                throw new Error('Unknown dependency: ' + dependency);
-            }
-
-            resolveInjections(
-                argnames(constructor),
-                req,
-                res,
-                callback,
-                function (err, results) {
-                    if (err) { return done(err); }
-                    constructor.apply(self, results);
-                }
-            );
+                resolveInjections(
+                    argnames(constructor),
+                    req,
+                    res,
+                    callback,
+                    function (err, results) {
+                        if (err) { return done(err); }
+                        constructor.apply(self, results);
+                    }
+                );
+            });
         }, done);
     }
 
@@ -74,15 +98,5 @@ module.exports = function (app) {
         };
     }
 
-    return function (dependency, fn) {
-        if (typeof fn !== 'function') {
-            throw new Error('inject() requires a function, but got a ' + typeof fn);
-        }
-
-        argnames(fn).forEach(function (param) {
-            dag.addEdge(dependency, param);
-        });
-
-        dependencies[dependency] = fn;
-    };
+    return inject;
 };

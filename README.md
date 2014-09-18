@@ -92,6 +92,35 @@ Injects dependency with name `name` and dependent express middlewares `fn`.
 
 `req`, `res` and `next` names are pre-defined to corresponding arguments of express middleware.
 
+## Exposed properties
+
+### inject.resolve(dependency, callback)
+
+Resolves dependency and calls callback:
+
+```js
+function resolve(dependency, cb) {
+    var resolved = this.dependencies[dependency];
+    if (!resolved) {
+        return cb(new Error('Unknown dependency: ' + dependency));
+    }
+    return cb(null, resolved);
+}
+```
+
+You can override it to add caching.
+
+### inject.declare(dependency, fn)
+
+Stores dependency in `inject.dependencies` object:
+
+```js
+function declare(dependency, fn) {
+    this.dependencies[dependency] = fn;
+}
+```
+
+
 ## License
 
 The MIT License (MIT) © [Vsevolod Strukchinsky](floatdrop@gmail.com)
