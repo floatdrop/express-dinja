@@ -1,7 +1,7 @@
 'use strict';
 
 var flatit = require('flatit');
-var argnames = require('get-parameter-names');
+var args = require('fn-args');
 var methods = require('methods');
 var async = require('async');
 var Dag = require('dag');
@@ -16,7 +16,7 @@ module.exports = function (app) {
             throw new Error('inject() requires a function, but got a ' + typeof fn);
         }
 
-        argnames(fn).forEach(function (param) {
+        args(fn).forEach(function (param) {
             dag.addEdge(dependency, param);
         });
 
@@ -50,7 +50,7 @@ module.exports = function (app) {
                 if (err) { throw err; }
 
                 resolveInjections(
-                    argnames(constructor),
+                    args(constructor),
                     req,
                     res,
                     callback,
@@ -79,7 +79,7 @@ module.exports = function (app) {
             var callbacks = flatit([].slice.call(arguments));
             callbacks = callbacks.map(function (fn) {
                 if (typeof fn !== 'function') { return fn; }
-                var params = argnames(fn);
+                var params = args(fn);
 
                 if (!needInject(params)) {
                     return fn;
