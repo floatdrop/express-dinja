@@ -1,42 +1,15 @@
 'use strict';
 
+var express = require('express');
 var utils = require('express/lib/utils');
 var argnames = require('get-parameter-names');
+var methods = require('methods');
 var async = require('async');
 var Dag = require('dag');
-
-function arraysEqual(arr1, arr2) {
-    if (arr1 === arr2) { return true; }
-    if (arr1 === null || arr2 === null) { return false; }
-    if (arr1.length !== arr2.length) { return false; }
-
-    for (var i = 0; i < arr1.length; ++i) {
-        if (arr1[i] !== arr2[i]) { return false; }
-    }
-
-    return true;
-}
-
-function needInject(parameters) {
-    var skipRules = [
-        [],
-        ['req'],
-        ['req', 'res'],
-        ['req', 'res', 'next'],
-        ['err', 'req', 'res', 'next'],
-        ['error', 'req', 'res', 'next']
-    ];
-    for (var i = 0; i < skipRules.length; ++i) {
-        if (arraysEqual(skipRules[i], parameters)) {
-            return false;
-        }
-    }
-    return true;
-}
+var needInject = require('./utils.js').needInject;
 
 module.exports = function (app) {
     var dependencies = {};
-    var route = app._router.route;
     var dag = new Dag();
 
     function resolveInjections(params, req, res, next, done) {
@@ -65,30 +38,34 @@ module.exports = function (app) {
         }, done);
     }
 
-    app._router.route = function (method, path) {
-        var callbacks = utils.flatten([].slice.call(arguments, 2));
+    methods.concat('all').forEach(function(method) {
+        var origin = express.Route.prototype[method];
 
-        callbacks = callbacks.map(function (fn) {
-            if (typeof fn !== 'function') { return fn; }
-            var params = argnames(fn);
+        express.Route.prototype[method] = function () {
+            var callbacks = utils.flatten([].slice.call(arguments));
 
-            if (!needInject(params)) {
-                return fn;
-            }
+            callbacks = callbacks.map(function (fn) {
+                if (typeof fn !== 'function') { return fn; }
+                var params = argnames(fn);
 
-            return function (req, res, next) {
-                var self = this;
-                resolveInjections.bind(self)(params, req, res, next, function (err, results) {
-                    if (err) {
-                        return next(err);
-                    }
-                    fn.apply(self, results);
-                });
-            };
-        });
+                if (!needInject(params)) {
+                    return fn;
+                }
 
-        route.call(this, method, path, callbacks);
-    };
+                return function (req, res, next) {
+                    var self = this;
+                    resolveInjections.bind(self)(params, req, res, next, function (err, results) {
+                        if (err) {
+                            return next(err);
+                        }
+                        fn.apply(self, results);
+                    });
+                };
+            });
+
+            origin.call(this, callbacks);
+        };
+    });
 
     return function (dependency, fn) {
         if (typeof fn !== 'function') {

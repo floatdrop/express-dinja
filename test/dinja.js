@@ -30,7 +30,7 @@ describe('base functionality', function () {
         var inject = require('../index.js')(app);
 
         app.get('/', function (req, res) {
-            res.send(200);
+            res.status(200).end();
         });
 
         inject('dependency', function (req, res, next) {
@@ -58,7 +58,7 @@ describe('base functionality', function () {
             should.exist(next);
             next.should.be.type('function');
 
-            res.send(200);
+            res.status(200).end();
         });
 
         request(app)
@@ -107,7 +107,7 @@ describe('base functionality', function () {
             should.exist(next);
             next.should.be.type('function');
 
-            res.send(200);
+            res.status(200).end();
         });
 
         request(app)

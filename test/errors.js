@@ -17,11 +17,11 @@ describe('errors handling', function () {
 
         app.get('/', function (bad, req, res) {
             should.not.exist(bad);
-            res.send(200);
+            res.status(200).end();
         });
 
         app.use(function (err, req, res, next) {
-            res.send(500, err.toString());
+            res.status(500).send(err.toString());
 
             should.exist(next);
             next.should.be.type('function');
@@ -47,11 +47,11 @@ describe('errors handling', function () {
 
         app.get('/', function (req, res, good) {
             should.not.exist(good);
-            res.send(200);
+            res.status(200).end();
         });
 
         app.use(function (err, req, res, next) {
-            res.send(500, err.toString());
+            res.status(500).send(err.toString());
 
             should.exist(next);
             next.should.be.type('function');
