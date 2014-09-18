@@ -26,12 +26,16 @@ module.exports = function (app) {
                 throw new Error('Unknown dependency: ' + dependency);
             }
 
-            resolveInjections(argnames(constructor), req, res, function (err, result) {
-                callback(err, result);
-            }, function (err, results) {
-                if (err) { return done(err); }
-                constructor.apply(self, results);
-            });
+            resolveInjections(
+                argnames(constructor),
+                req,
+                res,
+                callback,
+                function (err, results) {
+                    if (err) { return done(err); }
+                    constructor.apply(self, results);
+                }
+            );
         }, done);
     }
 
