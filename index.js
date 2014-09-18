@@ -1,7 +1,6 @@
 'use strict';
 
-var express = require('express');
-var utils = require('express/lib/utils');
+var flatit = require('flatit');
 var argnames = require('get-parameter-names');
 var methods = require('methods');
 var async = require('async');
@@ -38,12 +37,20 @@ module.exports = function (app) {
         }, done);
     }
 
-    methods.concat('all').forEach(function(method) {
-        var origin = express.Route.prototype[method];
+    app.lazyrouter();
 
-        express.Route.prototype[method] = function () {
-            var callbacks = utils.flatten([].slice.call(arguments));
+    var _route = app._router.route.bind(app._router);
+    app._router.route = function (path) {
+        var route = _route(path);
+        methods.forEach(function(method) {
+            route[method] = wrap(route[method]);
+        });
+        return route;
+    };
 
+    function wrap(origin) {
+        return function () {
+            var callbacks = flatit([].slice.call(arguments));
             callbacks = callbacks.map(function (fn) {
                 if (typeof fn !== 'function') { return fn; }
                 var params = argnames(fn);
@@ -65,7 +72,7 @@ module.exports = function (app) {
 
             origin.call(this, callbacks);
         };
-    });
+    }
 
     return function (dependency, fn) {
         if (typeof fn !== 'function') {

@@ -2,12 +2,13 @@
 'use strict';
 
 require('should');
+var express = require('express');
+var dinja = require('..');
 
 describe('circular dependencies', function () {
     it('should throw on circular dependencies', function () {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
         (function () {
             inject('injected', function (dependency, req, res, next) {
                 next(null, 'injected');
@@ -20,9 +21,8 @@ describe('circular dependencies', function () {
     });
 
     it('should not throw on reusing dependencies', function () {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
         (function () {
             inject('cookies', function (req, res, next) {
                 next();

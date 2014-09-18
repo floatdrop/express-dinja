@@ -2,22 +2,22 @@
 'use strict';
 
 var should = require('should');
+var express = require('express');
 var request = require('supertest');
+var dinja = require('..');
 
 describe('base functionality', function () {
     it('should create inject from express app', function () {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         should.exist(inject);
         inject.should.be.type('function');
     });
 
     it('should accept only functions', function () {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         (function () {
             inject('dependency', 'wow');
@@ -25,9 +25,8 @@ describe('base functionality', function () {
     });
 
     it('should not break application with injection', function (done) {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         app.get('/', function (req, res) {
             res.status(200).end();
@@ -43,9 +42,8 @@ describe('base functionality', function () {
     });
 
     it('should inject dependency', function (done) {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         inject('dependency', function (req, res, next) {
             next(null, 'injected');
@@ -67,9 +65,8 @@ describe('base functionality', function () {
     });
 
     it('should throw on unknown dependency', function (done) {
-        var express = require('express');
         var app = express();
-        require('../index.js')(app);
+        dinja(app);
 
         app.get('/', function (wat, req, res, next) {
             next();
@@ -88,9 +85,8 @@ describe('base functionality', function () {
     });
 
     it('should resolve dependencies in dependencies', function (done) {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         inject('injected', function (req, res, next) {
             next(null, 'injected');
