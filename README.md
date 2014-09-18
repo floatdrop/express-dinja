@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
-Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/floatdrop/express-di).
+Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/luin/express-di).
 
 ## Compatibility
 
