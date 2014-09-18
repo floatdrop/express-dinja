@@ -29,9 +29,7 @@ module.exports = function (app) {
             resolveInjections(argnames(constructor), req, res, function (err, result) {
                 callback(err, result);
             }, function (err, results) {
-                if (err) {
-                    return done(err);
-                }
+                if (err) { return done(err); }
                 constructor.apply(self, results);
             });
         }, done);
@@ -62,9 +60,7 @@ module.exports = function (app) {
                 return function (req, res, next) {
                     var self = this;
                     resolveInjections.bind(self)(params, req, res, next, function (err, results) {
-                        if (err) {
-                            return next(err);
-                        }
+                        if (err) { return next(err); }
                         fn.apply(self, results);
                     });
                 };
