@@ -2,13 +2,14 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
-Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/floatdrop/express-di).
+Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/luin/express-di).
 
 ## Compatibility
 
  * `3.x` version is for use with `express@3`
+ * `4.x` version is for use with `express@4`
 
-## Example
+## Usage
 
 ```js
 var express = require('express');
@@ -23,7 +24,7 @@ inject('dependency', function (injected, req, res, next) {
     next(null, 'dependency ' + injected);
 });
 
-app.get('/', function (dependency, req, res, next) {
+app.get('/', function (dependency, req, res) {
     res.json({
         dinja: dependency
     });
@@ -42,9 +43,10 @@ On [localhost:8080](http://localhost:8080) you should see:
 
 ## Why
 
-Suppose you have this middleware dependency tree:
+Suppose you have this graph of middleware dependencies:
 
 ![middlewares](https://cloud.githubusercontent.com/assets/365089/2589017/c0292b1a-ba45-11e3-9a1b-57e63d5cdcd2.png)
+
 
 In express there is no built-in way to start execution of middlewares parallel, so you have two choices:
 
@@ -54,7 +56,7 @@ In express there is no built-in way to start execution of middlewares parallel, 
 To reduce boilerplate code (you can see it in statusTodos function below) dependency injection pattern was added to express route function.
 Here is example how would applications look in plain express middlewares, express with express-dinja and [fist framework](https://github.com/fistlabs/fist):
 
-![2014-04-02 15-31-55 fist js - usersfloatdropexpress-vs-fist](https://cloud.githubusercontent.com/assets/365089/2589274/b1e02870-ba49-11e3-9a31-4cd839c50c70.png)
+![express-vs-fist](https://cloud.githubusercontent.com/assets/365089/4318952/5fae9774-3f25-11e4-940a-b4d557750a1d.png)
 
 ## Difference from express-di
 
@@ -73,19 +75,11 @@ Middleware is faked database connection, which will response in predefined time 
 
 ## API
 
-### expressInject(app)
-```js
-var expressInject = require('express-inject');
-```
+### dinja(app)
 
 Returns `Function`, that can inject dependencies into express application `app`. It will patch `route` method to enable injections in route-specific methods like `use`, `get`, `post` and etc.
 
 ### inject(name, fn)
-
-```js
-var app = express();
-var inject = expressInject(app);
-```
 
 Injects dependency with name `name` and dependent express middlewares `fn`.
 
@@ -96,7 +90,34 @@ Injects dependency with name `name` and dependent express middlewares `fn`.
 
 `req`, `res` and `next` names are pre-defined to corresponding arguments of express middleware.
 
-You can see [example](https://github.com/floatdrop/express-dinja#example) for details.
+### inject.resolve(name, callback)
+
+Resolves dependency and calls callback:
+
+```js
+function resolve(name, cb) {
+    var resolved = this.dependencies[name];
+    if (!resolved) {
+        return cb(new Error('Unknown dependency: ' + name));
+    }
+    return cb(null, resolved);
+}
+```
+
+You can override it to add caching.
+
+### inject.declare(name, fn)
+
+Stores dependency in `inject.dependencies` object:
+
+```js
+function declare(name, fn) {
+    this.dependencies[name] = fn;
+}
+```
+
+If you want to use shared singleton as storage, you can override this (do not forget to override `inject.resolve` as well).
+
 
 ## License
 

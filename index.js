@@ -1,72 +1,71 @@
 'use strict';
 
-var utils = require('express/lib/utils');
+var flatit = require('flatit');
 var argnames = require('get-parameter-names');
 var async = require('async');
 var Dag = require('dag');
-
-function arraysEqual(arr1, arr2) {
-    if (arr1 === arr2) { return true; }
-    if (arr1 === null || arr2 === null) { return false; }
-    if (arr1.length !== arr2.length) { return false; }
-
-    for (var i = 0; i < arr1.length; ++i) {
-        if (arr1[i] !== arr2[i]) { return false; }
-    }
-
-    return true;
-}
-
-function needInject(parameters) {
-    var skipRules = [
-        [],
-        ['req'],
-        ['req', 'res'],
-        ['req', 'res', 'next'],
-        ['err', 'req', 'res', 'next'],
-        ['error', 'req', 'res', 'next']
-    ];
-    for (var i = 0; i < skipRules.length; ++i) {
-        if (arraysEqual(skipRules[i], parameters)) {
-            return false;
-        }
-    }
-    return true;
-}
+var needInject = require('./utils').needInject;
 
 module.exports = function (app) {
-    var dependencies = {};
     var route = app._router.route;
     var dag = new Dag();
+
+    var inject;
+
+    inject = function (dependency, fn) {
+        if (typeof fn !== 'function') {
+            throw new Error('inject() requires a function, but got a ' + typeof fn);
+        }
+
+        argnames(fn).forEach(function (param) {
+            dag.addEdge(dependency, param);
+        });
+
+        inject.declare.call(inject, dependency, fn);
+    };
+
+    inject.dependencies = {};
+
+    inject.declare = function declare(name, fn) {
+        this.dependencies[name] = fn;
+    };
+
+    inject.resolve = function resolve(name, cb) {
+        var resolved = this.dependencies[name];
+        if (!resolved) {
+            return cb(new Error('Unknown dependency: ' + name));
+        }
+        return cb(null, resolved);
+    };
 
     function resolveInjections(params, req, res, next, done) {
         /*jshint validthis:true */
         var self = this;
 
-        async.mapSeries(params, function (dependency, callback) {
+        async.map(params, function (dependency, callback) {
             if (dependency === 'req') { return callback(null, req); }
             if (dependency === 'res') { return callback(null, res); }
             if (dependency === 'next') { return callback(null, next); }
 
-            var constructor = dependencies[dependency];
+            inject.resolve.call(inject, dependency, function (err, constructor) {
+                if (err) { throw err; }
 
-            if (!constructor) {
-                throw new Error('Unknown dependency: ' + dependency);
-            }
-
-            resolveInjections(argnames(constructor), req, res, function (err, result) {
-                callback(err, result);
-            }, function (err, results) {
-                if (err) {
-                    return done(err);
-                }
-                constructor.apply(self, results);
+                resolveInjections(
+                    argnames(constructor),
+                    req,
+                    res,
+                    callback,
+                    function (err, results) {
+                        if (err) { return done(err); }
+                        constructor.apply(self, results);
+                    }
+                );
             });
         }, done);
     }
 
     app._router.route = function (method, path) {
-        var callbacks = utils.flatten([].slice.call(arguments, 2));
+        var callbacks = flatit([].slice.call(arguments, 2));
 
         callbacks = callbacks.map(function (fn) {
             if (typeof fn !== 'function') { return fn; }
@@ -79,9 +78,7 @@ module.exports = function (app) {
             return function (req, res, next) {
                 var self = this;
                 resolveInjections.bind(self)(params, req, res, next, function (err, results) {
-                    if (err) {
-                        return next(err);
-                    }
+                    if (err) { return next(err); }
                     fn.apply(self, results);
                 });
             };
@@ -90,15 +87,5 @@ module.exports = function (app) {
         route.call(this, method, path, callbacks);
     };
 
-    return function (dependency, fn) {
-        if (typeof fn !== 'function') {
-            throw new Error('inject() requires a function, but got a ' + typeof fn);
-        }
-
-        argnames(fn).forEach(function (param) {
-            dag.addEdge(dependency, param);
-        });
-
-        dependencies[dependency] = fn;
-    };
+    return inject;
 };

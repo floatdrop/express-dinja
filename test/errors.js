@@ -3,13 +3,14 @@
 
 var should = require('should');
 var request = require('supertest');
+var express = require('express');
+var dinja = require('..');
 
 describe('errors handling', function () {
 
     it('should pass errors from dependencies', function (done) {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         inject('bad', function (req, res, next) {
             next('an error');
@@ -33,9 +34,8 @@ describe('errors handling', function () {
     });
 
     it('should pass errors from sub-dependencies', function (done) {
-        var express = require('express');
         var app = express();
-        var inject = require('../index.js')(app);
+        var inject = dinja(app);
 
         inject('bad', function (req, res, next) {
             next('an error');

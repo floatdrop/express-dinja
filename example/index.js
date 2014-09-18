@@ -12,7 +12,7 @@ inject('dependency', function (injected, req, res, next) {
     next(null, 'dependency ' + injected);
 });
 
-app.get('/', function (dependency, req, res, next) {
+app.get('/', function (dependency, req, res) {
     res.json({
         dinja: dependency
     });
