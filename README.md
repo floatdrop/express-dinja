@@ -9,7 +9,7 @@ Use dependency injection pattern for Express applications. Inspired by [express-
  * `3.x` version is for use with `express@3`
  * `4.x` version is for use with `express@4`
 
-`3.x` and `4.x` versions now using `async.map` for dependency resolving (instead of `async.mapSeries` in `0.0.4`).
+> `async.mapSync` changed to `async.mapSeries` in stable releases.
 
 ## Usage
 
@@ -65,7 +65,8 @@ Here is example how would applications look in plain express middlewares, expres
 This module is heavily based on code from `express-di`, but has additional features, that I think is necessary for full dependency injection.
 
  * Dependency resolving in injected dependencies
- * No cache
+ * No express.Route.prototype patching
+ * No hardcoded cache
 
 ## Benchmark
 
