@@ -9,7 +9,7 @@ Use dependency injection pattern for Express applications. Inspired by [express-
  * `3.x` version is for use with `express@3`
  * `4.x` version is for use with `express@4`
 
-> `async.mapSync` changed to `async.mapSeries` in stable releases.
+> `async.mapSeries` changed to `async.map` in stable releases.
 
 ## Usage
 
