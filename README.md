@@ -65,8 +65,9 @@ Here is example how would applications look in plain express and with express-di
 This module is heavily based on code from `express-di`, but has additional features, that I think is necessary for full dependency injection.
 
  * Dependency resolving in injected dependencies
- * No express.Route.prototype patching
+ * No `express.Route.prototype` patching
  * No hardcoded cache
+ * No dependency inheritance in mounted apps (todo)
 
 ## Benchmark
 
