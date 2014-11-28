@@ -73,7 +73,7 @@ This module is heavily based on code from `express-di`, but has additional featu
 
 I used benchmark from [`express-di`](https://github.com/luin/express-di/tree/master/benchmarks) to compare bare express application performance with patched version. Benchmark takes application with one middleware, that uses dependency injection and after middleware is done - sends 'Hello world' response.
 
-Middleware is faked database connection, which will response in predefined time (horisontal bar) and requests/sec is the vertical bar:
+Middleware is faked database connection, which will response in predefined time (horizontal bar) and requests/sec is the vertical bar:
 
 ![Performance chart](https://cloud.githubusercontent.com/assets/365089/2590257/9d323e76-ba59-11e3-8ea9-66bae5854c46.png)
 
