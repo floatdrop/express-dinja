@@ -125,7 +125,7 @@ If you want to use shared singleton as storage, you can override this (do not fo
 
 ## License
 
-The MIT License (MIT) © [Vsevolod Strukchinsky](floatdrop@gmail.com)
+The MIT License (MIT) © [Vsevolod Strukchinsky](mailto:floatdrop@gmail.com)
 
 [npm-url]: https://npmjs.org/package/express-dinja
 [npm-image]: http://img.shields.io/npm/v/express-dinja.svg?style=flat
