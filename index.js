@@ -20,7 +20,7 @@ module.exports = function (app) {
 			dag.addEdge(dependency, param);
 		});
 
-		inject.declare.call(inject, dependency, fn);
+		inject.declare(dependency, fn);
 	};
 
 	inject.dependencies = {};
@@ -38,16 +38,23 @@ module.exports = function (app) {
 	};
 
 	function resolveInjections(params, req, res, next, done) {
-		/*jshint validthis:true */
 		var self = this;
 
 		async.map(params, function (dependency, callback) {
-			if (dependency === 'req') { return callback(null, req); }
-			if (dependency === 'res') { return callback(null, res); }
-			if (dependency === 'next') { return callback(null, next); }
+			if (dependency === 'req') {
+				return callback(null, req);
+			}
+			if (dependency === 'res') {
+				return callback(null, res);
+			}
+			if (dependency === 'next') {
+				return callback(null, next);
+			}
 
-			inject.resolve.call(inject, dependency, function (err, constructor) {
-				if (err) { throw err; }
+			inject.resolve(dependency, function (err, constructor) {
+				if (err) {
+					throw err;
+				}
 
 				resolveInjections(
 					args(constructor),
@@ -55,7 +62,9 @@ module.exports = function (app) {
 					res,
 					callback,
 					function (err, results) {
-						if (err) { return done(err); }
+						if (err) {
+							return done(err);
+						}
 						constructor.apply(self, results);
 					}
 				);
@@ -78,7 +87,9 @@ module.exports = function (app) {
 		return function () {
 			var callbacks = flatten([].slice.call(arguments));
 			callbacks = callbacks.map(function (fn) {
-				if (typeof fn !== 'function') { return fn; }
+				if (typeof fn !== 'function') {
+					return fn;
+				}
 				var params = args(fn);
 
 				if (!needInject(params)) {
@@ -88,7 +99,9 @@ module.exports = function (app) {
 				return function (req, res, next) {
 					var self = this;
 					resolveInjections.bind(self)(params, req, res, next, function (err, results) {
-						if (err) { return next(err); }
+						if (err) {
+							return next(err);
+						}
 						fn.apply(self, results);
 					});
 				};
