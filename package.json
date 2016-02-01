@@ -1,6 +1,6 @@
 {
   "name": "express-dinja",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Dependency injection for Express applications",
   "main": "index.js",
   "scripts": {
