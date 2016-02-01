@@ -2,14 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
-Use dependency injection pattern for Express applications. Inspired by [express-di](https://github.com/luin/express-di).
-
-## Compatibility
-
- * `3.x` version is for use with `express@3`
- * `4.x` version is for use with `express@4`
-
-> `async.mapSeries` changed to `async.map` in stable releases.
+Use dependency injection pattern for Express 4.x applications. Inspired by [express-di](https://github.com/luin/express-di).
 
 ## Usage
 

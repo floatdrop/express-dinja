@@ -1,6 +1,6 @@
 'use strict';
 
-var flatit = require('flatit');
+var flatten = require('arr-flatten');
 var args = require('fn-args');
 var methods = require('methods');
 var async = require('async');
@@ -76,7 +76,7 @@ module.exports = function (app) {
 
     function wrap(origin) {
         return function () {
-            var callbacks = flatit([].slice.call(arguments));
+            var callbacks = flatten([].slice.call(arguments));
             callbacks = callbacks.map(function (fn) {
                 if (typeof fn !== 'function') { return fn; }
                 var params = args(fn);
