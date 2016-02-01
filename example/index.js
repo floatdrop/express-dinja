@@ -5,17 +5,17 @@ var app = express();
 var inject = require('../index.js')(app);
 
 inject('injected', function (req, res, next) {
-    next(null, 'injected');
+	next(null, 'injected');
 });
 
 inject('dependency', function (injected, req, res, next) {
-    next(null, 'dependency ' + injected);
+	next(null, 'dependency ' + injected);
 });
 
 app.get('/', function (dependency, req, res) {
-    res.json({
-        dinja: dependency
-    });
+	res.json({
+		dinja: dependency
+	});
 });
 
 require('http').createServer(app).listen(8080);

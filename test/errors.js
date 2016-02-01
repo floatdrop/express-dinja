@@ -1,65 +1,59 @@
 /* global describe, it */
 'use strict';
 
-var should = require('should');
+var assert = require('assert');
 var request = require('supertest');
 var express = require('express');
 var dinja = require('..');
 
 describe('errors handling', function () {
+	it('should pass errors from dependencies', function (done) {
+		var app = express();
+		var inject = dinja(app);
 
-    it('should pass errors from dependencies', function (done) {
-        var app = express();
-        var inject = dinja(app);
+		inject('bad', function (req, res, next) {
+			next('an error');
+		});
 
-        inject('bad', function (req, res, next) {
-            next('an error');
-        });
+		app.get('/', function (bad, req, res) {
+			assert.ifError(bad);
+			res.status(200).end();
+		});
 
-        app.get('/', function (bad, req, res) {
-            should.not.exist(bad);
-            res.status(200).end();
-        });
+		app.use(function (err, req, res, next) {
+			res.status(500).send(err.toString());
+			assert.equal(typeof next, 'function');
+		});
 
-        app.use(function (err, req, res, next) {
-            res.status(500).send(err.toString());
+		request(app)
+			.get('/')
+			.expect(500, 'an error', done);
+	});
 
-            should.exist(next);
-            next.should.be.type('function');
-        });
+	it('should pass errors from sub-dependencies', function (done) {
+		var app = express();
+		var inject = dinja(app);
 
-        request(app)
-            .get('/')
-            .expect(500, 'an error', done);
-    });
+		inject('bad', function (req, res, next) {
+			next('an error');
+		});
 
-    it('should pass errors from sub-dependencies', function (done) {
-        var app = express();
-        var inject = dinja(app);
+		inject('good', function (bad, req, res, next) {
+			next();
+		});
 
-        inject('bad', function (req, res, next) {
-            next('an error');
-        });
+		app.get('/', function (req, res, good) {
+			assert.ifError(good);
+			res.status(200).end();
+		});
 
-        inject('good', function (bad, req, res, next) {
-            next();
-        });
+		app.use(function (err, req, res, next) {
+			res.status(500).send(err.toString());
+			assert.equal(typeof next, 'function');
+		});
 
-        app.get('/', function (req, res, good) {
-            should.not.exist(good);
-            res.status(200).end();
-        });
-
-        app.use(function (err, req, res, next) {
-            res.status(500).send(err.toString());
-
-            should.exist(next);
-            next.should.be.type('function');
-        });
-
-        request(app)
-            .get('/')
-            .expect(500, 'an error', done);
-    });
-
+		request(app)
+			.get('/')
+			.expect(500, 'an error', done);
+	});
 });
