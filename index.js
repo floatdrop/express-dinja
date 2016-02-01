@@ -9,9 +9,7 @@ var needInject = require('./utils.js').needInject;
 
 module.exports = function (app) {
 	var dag = new Dag();
-	var inject;
-
-	inject = function (dependency, fn) {
+	var inject = function (dependency, fn) {
 		if (typeof fn !== 'function') {
 			throw new Error('inject() requires a function, but got a ' + typeof fn);
 		}
