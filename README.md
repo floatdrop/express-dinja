@@ -1,6 +1,6 @@
 # express-dinja
 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
+[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url]
 
 Use dependency injection pattern for Express 4.x applications. Inspired by [express-di](https://github.com/luin/express-di).
 
@@ -120,14 +120,8 @@ If you want to use shared singleton as storage, you can override this (do not fo
 
 The MIT License (MIT) © [Vsevolod Strukchinsky](mailto:floatdrop@gmail.com)
 
-[npm-url]: https://npmjs.org/package/express-dinja
-[npm-image]: http://img.shields.io/npm/v/express-dinja.svg?style=flat
-
 [travis-url]: https://travis-ci.org/floatdrop/express-dinja
 [travis-image]: http://img.shields.io/travis/floatdrop/express-dinja.svg?style=flat
 
 [coveralls-url]: https://coveralls.io/r/floatdrop/express-dinja
 [coveralls-image]: http://img.shields.io/coveralls/floatdrop/express-dinja.svg?style=flat
-
-[depstat-url]: https://david-dm.org/floatdrop/express-dinja
-[depstat-image]: http://img.shields.io/david/floatdrop/express-dinja.svg?style=flat
