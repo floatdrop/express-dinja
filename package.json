@@ -26,9 +26,9 @@
   "homepage": "https://github.com/floatdrop/express-dinja",
   "devDependencies": {
     "coveralls": "~2.11",
-    "express": "~4",
+    "express": "^4",
     "istanbul": "~0.3",
-    "mocha": "~1.21",
+    "mocha": "^2",
     "mocha-lcov-reporter": "~0.0.1",
     "should": "~4",
     "supertest": "~0.13.0"
