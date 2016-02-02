@@ -95,12 +95,11 @@ module.exports = function (app) {
 				}
 
 				return function (req, res, next) {
-					var self = this;
-					resolveInjections.bind(self)(params, req, res, next, function (err, results) {
+					resolveInjections(params, req, res, next, function (err, results) {
 						if (err) {
 							return next(err);
 						}
-						fn.apply(self, results);
+						fn.apply(null, results);
 					});
 				};
 			});
