@@ -36,8 +36,6 @@ module.exports = function (app) {
 	};
 
 	function resolveInjections(params, req, res, next, done) {
-		var self = this;
-
 		async.map(params, function (dependency, callback) {
 			if (dependency === 'req') {
 				return callback(null, req);
@@ -63,7 +61,7 @@ module.exports = function (app) {
 						if (err) {
 							return done(err);
 						}
-						constructor.apply(self, results);
+						constructor.apply(null, results);
 					}
 				);
 			});
