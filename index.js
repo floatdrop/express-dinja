@@ -3,7 +3,7 @@
 var flatten = require('arr-flatten');
 var args = require('fn-args');
 var methods = require('methods');
-var async = require('async');
+var asyncLib = require('async');
 var Dag = require('dag');
 var needInject = require('./utils.js').needInject;
 
@@ -36,7 +36,7 @@ module.exports = function (app) {
 	};
 
 	function resolveInjections(params, req, res, next, done) {
-		async.map(params, function (dependency, callback) {
+		asyncLib.map(params, function (dependency, callback) {
 			if (dependency === 'req') {
 				return callback(null, req);
 			}
